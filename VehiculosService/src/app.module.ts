@@ -2,24 +2,18 @@ import { Module, DynamicModule, NotFoundException, OnApplicationShutdown } from 
 import { MikroORM } from 'mikro-orm';
 import { MikroOrmModule, MikroOrmModuleOptions } from 'nestjs-mikro-orm';
 import { DatabaseHelper } from './helpers/database.helper';
-import { EstanciaController } from './estancias/estancia.controller';
-import { EstanciaService } from './estancias/estancia.service';
-import { Estancia } from './estancias/estancia.entity';
 import { VehiculoController } from './vehiculos/vehiculo.controller';
 import { VehiculoService } from './vehiculos/vehiculo.service';
 import { Vehiculo } from './vehiculos/vehiculo.entity';
-import { Usuario } from './usuarios/usuario.entity';
-import { UsuarioController } from './usuarios/usuario.controller';
-import UsuarioService from './usuarios/usuario.service';
   
 @Module({
 	imports: [
 	MikroOrmModule.forFeature({
-		entities: [Estancia, Vehiculo, Usuario],
+		entities: [Vehiculo],
 	}),
 	],
-	providers: [EstanciaService, VehiculoService, UsuarioService, DatabaseHelper],
-	controllers: [EstanciaController, VehiculoController, UsuarioController],
+	providers: [VehiculoService, DatabaseHelper],
+	controllers: [VehiculoController],
 })
 
 export class AppModule implements OnApplicationShutdown {
@@ -32,7 +26,7 @@ export class AppModule implements OnApplicationShutdown {
 		module: AppModule,
 		imports: [
 		MikroOrmModule.forRoot({
-			entities: [Estancia, Vehiculo, Usuario],
+			entities: [Vehiculo],
 
 			type: 'mongo',
 			clientUrl: 'mongodb://192.168.99.100:27017/vehiculos',
