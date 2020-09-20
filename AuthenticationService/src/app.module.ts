@@ -5,12 +5,20 @@ import { DatabaseHelper } from './helpers/database.helper';
 import { Usuario } from './usuarios/usuario.entity';
 import { UsuarioController } from './usuarios/usuario.controller';
 import UsuarioService from './usuarios/usuario.service';
+import { PassportModule } from '@nestjs/passport';
+import { JwtModule } from '@nestjs/jwt';
+import { jwtConstants } from './usuarios/constants';
   
 @Module({
 	imports: [
 	MikroOrmModule.forFeature({
 		entities: [Usuario],
 	}),
+	PassportModule,
+	JwtModule.register({
+		secret: jwtConstants.secret,
+		signOptions: {expiresIn: '60s'}
+	})
 	],
 	providers: [UsuarioService, DatabaseHelper],
 	controllers: [UsuarioController],
